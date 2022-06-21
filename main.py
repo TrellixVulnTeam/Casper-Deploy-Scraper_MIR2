@@ -6,7 +6,7 @@ import time #for testing
 
 os.system('clear')
 _Deploys = []
-NFTs = []
+_Balance = []
 #########################################################################
 #                       DEPLOY CLASS                                    #
 #########################################################################
@@ -63,10 +63,26 @@ class Deploy:
         #
         if self.nature == 'mint':
             url = 'https://event-store-api-clarity-testnet.make.services/extended-deploys/' + self.hash + '?fields=entry_point,contract_package'
+
+            #TEST
+            print(requests.get(url).text)
+            #time.sleep(100)
+
+
             Metadata = json.loads(requests.get(url).text)['args']['token_metas']['parsed']
-            time.sleep(5)
+            #time.sleep(5)
             print(self)
             print(Metadata)
+
+
+
+            # GET THE OWNER OF THE NFT @ given hash
+            r = json.loads(requests.get(url).text)
+            print(r['contract_package']['owner_public_key'])
+            time.sleep(100)
+
+
+
         elif self.nature == 'mint_copies':
             print('handle nature mint_copies')
             url = 'https://event-store-api-clarity-testnet.make.services/extended-deploys/' + self.hash + '?fields=entry_point,contract_package'
@@ -85,14 +101,18 @@ class Deploy:
             print('handle nature transfer_from')
             url = 'https://event-store-api-clarity-testnet.make.services/extended-deploys/' + self.hash + '?fields=entry_point,contract_package'
             Metadata = json.loads(requests.get(url).text)
+
             print(Metadata)
+            #time.sleep(100)
+
             contract_package_hash = Metadata['contract_package_hash']
             print(contract_package_hash)
+
             # Thanks to the contract_package_hash, we know which NFT was transferred.
             # Additional data we will need: Is it Incoming or Outgoing? Timestamp.
             # Collect all transactions for all NFTs and map them. Then sort them by timestamp.
             # Finally check ownership.
-            time.sleep(100)
+            #time.sleep(100)
             #do stuff
             pass
 

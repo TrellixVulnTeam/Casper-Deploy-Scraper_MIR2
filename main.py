@@ -6,7 +6,10 @@ import time #for testing
 
 os.system('clear')
 _Deploys = []
-
+NFTs = []
+#########################################################################
+#                       DEPLOY CLASS                                    #
+#########################################################################
 class Deploy:
     def __init__(self, entry_point, hash, nature):
         self.entry_point = entry_point
@@ -22,26 +25,92 @@ class Deploy:
         return True
 
     def _match_deploy_nature(self):
+        natures = {'mint':'mint', 'mint_copies':'mint_copies', 'transfer_from':'transfer_from', 'transfer':'transfer', 'burn':'burn'}
         if not self.entry_point:
             print("SKIP")
             self.nature = None
             return False
-        if self.entry_point['name'] == 'mint':
+        try:
+            self.nature = natures[self.entry_point['name']]
+            return self._add_deploy()
+        except Exception as Unsupported_Nature:
+            print('[WARNING: NATURE ' + self.entry_point['name'] + ' NOT YET SUPPORTED]')
+            return False
+
+
+        '''if self.entry_point['name'] == 'mint':
             print(self.entry_point['name'])
             self.nature = "mint"
             return self._add_deploy()
+        elif self.entry_point['name'] == 'mint_copies':
+            self.nature = 'mint_copies'
+            return self._add_deploy()
+        elif self.entry_point['name'] == 'transfer_from':
+            self.nature = 'transfer_from'
+            return self._add_deploy()
+        elif self.entry_point['name'] == 'transfer':
+            self.nature = 'transfer'
+            return self._add_deploy()
+        elif self.entry_point['name'] == 'burn':
+            self.nature = 'burn'
+            return self._add_deploy()
         else:
             print('[WARNING: NATURE ' + self.entry_point['name'] + ' NOT YET SUPPORTED]')
-            return False
+            return False'''
     def _get_metadata(self):
+        #
+        # IF ELSE LOGIC TEMPORARY SOLUTION
+        #
         if self.nature == 'mint':
             url = 'https://event-store-api-clarity-testnet.make.services/extended-deploys/' + self.hash + '?fields=entry_point,contract_package'
             Metadata = json.loads(requests.get(url).text)['args']['token_metas']['parsed']
             time.sleep(5)
             print(self)
             print(Metadata)
+        elif self.nature == 'mint_copies':
+            print('handle nature mint_copies')
+            url = 'https://event-store-api-clarity-testnet.make.services/extended-deploys/' + self.hash + '?fields=entry_point,contract_package'
+            Metadata = json.loads(requests.get(url).text)['args']
+            print(Metadata)
+            token_ids = Metadata['token_ids']
+            token_meta = Metadata['token_meta']
+            print(token_ids)
+            print(token_meta)
+            #print(token_meta)
+            #time.sleep(100)
+            #do stuff
+            pass
+
+        elif self.nature == 'transfer_from':
+            print('handle nature transfer_from')
+            url = 'https://event-store-api-clarity-testnet.make.services/extended-deploys/' + self.hash + '?fields=entry_point,contract_package'
+            Metadata = json.loads(requests.get(url).text)
+            print(Metadata)
+            contract_package_hash = Metadata['contract_package_hash']
+            print(contract_package_hash)
+            # Thanks to the contract_package_hash, we know which NFT was transferred.
+            # Additional data we will need: Is it Incoming or Outgoing? Timestamp.
+            # Collect all transactions for all NFTs and map them. Then sort them by timestamp.
+            # Finally check ownership.
+            time.sleep(100)
+            #do stuff
+            pass
+
+
+        elif self.nature == 'transfer':
+            print('handle nature transfer')
+            #do stuff
+            pass
+        elif self.nature == 'burn':
+            print('handle nature burn')
+            #do stuff
+            pass
         else:
             print(self.nature)
+
+#########################################################################
+#                       General stuff                                   #
+#########################################################################
 
 def Get_Deploys():
     if not PAGE_DATA:
@@ -64,11 +133,9 @@ def Get_Deploys():
     return Deploys
 
 
-
-############################################################################
-
-
-#[TESTS]
+#########################################################################
+#                       TESTS                                           #
+#########################################################################
 for deploys in Get_Deploys():
     for deploy in deploys['data']:
         print('[CHECKING DEPLOY]')
@@ -79,7 +146,6 @@ for deploys in Get_Deploys():
 
 print(_Deploys)
 print(len(_Deploys))
-
 
 for deploy in _Deploys:
     print("DEPLOY:")

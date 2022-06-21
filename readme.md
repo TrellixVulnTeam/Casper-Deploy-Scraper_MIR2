@@ -8,7 +8,7 @@
 2. Deploys that are of nature "mint" can be identified and the deploy hash is
 recorded, so that one can access the Metadata of NFTs using the Casper-Client (sdk)
 
-3. Metadata can be extracted from explicit "mint" deploys. Metadata is a list so further pasing is required.
+3. Metadata can be extracted from deploys of different nature, however not yet sure which data will actually be necessary.
 ```
 
 ## Challenges

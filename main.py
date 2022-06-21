@@ -12,6 +12,34 @@ os.system('clear')
 
 # Now that you have the deploy_hash, use the casper-client with
 # get-deploy <DEPLOY HASH>
+
+_Deploys = []
+
+class Deploy:
+    def __init__(self, entry_point, hash, nature=None):
+        self.entry_point = entry_point
+        self.hash = hash
+        self.nature = nature
+
+    def _add_deploy(self):
+        _Deploys.append({
+        'hash':self.hash,
+        'nature':self.nature,
+        'entry_point':self.entry_point
+        })
+
+    def _match_deploy_nature(self):
+        if not self.entry_point:
+            print("SKIP")
+            self.nature = None
+            return
+        if self.entry_point['name'] == 'mint':
+            print(self.entry_point['name'])
+            self.nature = "mint"
+            self._add_deploy()
+        else:
+            print('[WARNING: NATURE ' + self.entry_point['name'] + ' NOT YET SUPPORTED]')
+
 def Get_Deploys():
     if not PAGE_DATA:
         return False
@@ -24,8 +52,8 @@ def Get_Deploys():
         page_data = json.loads(requests.get(BASE_URL + PUBLIC_KEY + "/extended-deploys?with_amounts_in_currency_id=1&page=" + str(CURRENT_PAGE) + "&limit=" + LIMIT + "&fields=entry_point,contract_package").text)
         itemCount -= int(LIMIT)
         CURRENT_PAGE += 1
-        print(page_data)
-        print('-'*7 + 'END OF BLOCK' + '-'*7)
+        #print(page_data)
+        #print('-'*7 + 'END OF BLOCK' + '-'*7)
         Deploys.append(page_data)
     if itemCount - (int(LIMIT) * CURRENT_PAGE) != 0:
         last_page_data = json.loads(requests.get(BASE_URL + PUBLIC_KEY + "/extended-deploys?with_amounts_in_currency_id=1&page=" + str(CURRENT_PAGE + 1) + "&limit=" + LIMIT + "&fields=entry_point,contract_package").text)
@@ -41,10 +69,48 @@ def Get_Deploy_Hashs(Deploys):
     print(Deploy_Hashs)
     print(len(Deploy_Hashs))
 
-def Sort_Deploys_Chronologically(Deploys):
-    return None
-# Check what the Entry Point of the call was
+def Get_Entry_Points(Deploys):
+    Entry_Points = []
+    for item in Deploys:
+        for deploy in item['data']:
+            #print(deploy)
+            #print('-'*20)
+            Entry_Points.append(deploy['entry_point'])
+        #for deploy in item
+            #print('-'*20)
+            #print(deploy)
+            #Entry_Points.append(deploy['entry_point'])
+    #print(Entry_Points)
+    #print(len(Entry_Points))
+    return Entry_Points
 
+# Check what the Entry Point of the call was
+'''
+def Match_Entry_Mint(Entry_Points):
+    NFTs = []
+    for item in Entry_Points:
+        print(item)
+        try:
+            if item['name'] == 'mint':
+                NFTs.append(item)
+        except Exception as ENTRY_ERROR:
+            pass
+    print(NFTs)
+'''
 #example_result_json = json.loads(example_result)
 
-Get_Deploy_Hashs(Get_Deploys())
+for deploys in Get_Deploys():
+    for deploy in deploys['data']:
+        print('[CHECKING DEPLOY]')
+        hash = deploy['deploy_hash']
+        entry_point = deploy['entry_point']
+        instance = Deploy(entry_point, hash)
+        instance._match_deploy_nature()
+
+print(_Deploys)
+print(len(_Deploys))
+
+
+#deploys = Get_Deploys()
+#Get_Entry_Points(deploys)
+#Match_Entry_Mint(Get_Entry_Points(deploys))

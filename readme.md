@@ -16,10 +16,12 @@ schema, that may not be the industry, nore community standard.
 ```
 ### Features
 
+```
 Relying on the cep47 NFT standard,this tool can be used to
 scrape the Casper Explorer for NFTs owned by a specific account.
 Examples can be found in the attached .png files.
 
 Input: Account-hash from explorer, Contract-hash of NFT-Token.
+```
 
 Handled "natures": "mint", "mint_copies", "transfer_from", "burn"

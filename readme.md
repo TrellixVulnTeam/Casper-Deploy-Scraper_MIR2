@@ -1,21 +1,25 @@
-# This Scraper makes use of the Casper Explorer to query Deploys associated with an Account and filter the results to identify NFT-Metadata
+# Casper-Deploy-Scraper/Scraper
+## Access the metadata of all NFTs owned by a specific Account using only the Contract Hash.
 
-## Features
+### Limitations
+```
+This tool is under development and not intended for public use.
+The Casper NFT standard is under development and may be subject
+to frequent changes, that will render this tool useless overnight.
+
+For as long as I see a use in this tool,
+I will continue to maintain it.
+
+To be fully functional, this tool relies on a made up JSON
+schema, that may not be the industry, nore community standard.
 
 ```
-1. Deploys can be queried. As Deploys are parsed in json they are not quite in order. This needs to be fixed to check ownership changes of NFTs.
+### Features
 
-2. Deploys that are of nature "mint" can be identified and the deploy hash is
-recorded, so that one can access the Metadata of NFTs using the Casper-Client (sdk)
+Relying on the cep47 NFT standard,this tool can be used to
+scrape the Casper Explorer for NFTs owned by a specific account.
+Examples can be found in the attached .png files.
 
-3. Metadata can be extracted from deploys of different nature, however not yet sure which data will actually be necessary.
-```
+Input: Account-hash from explorer, Contract-hash of NFT-Token.
 
-## Challenges
-```
-1. Account for changes in ownership / "filter" NFTs that are no longer owned by the public key, by either:
-  - recording their timestamp
-  - chronological ordering of Deploys
-
-2. Add other "natures" e.g. nft-transfers, copies and more.
-```
+Handled "natures": "mint", "mint_copies", "transfer_from", "burn"

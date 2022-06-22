@@ -175,3 +175,16 @@ for deploy in _Deploys:
     nature = deploy['nature']
     i2 = Deploy(entry_point, hash, nature)
     print(i2._get_metadata())
+
+
+'''
+When Metadata is standartized, collect all copies that were minted to an account and
+use their ID & the Token Contract's Hash to check whether the account still owns them:
+
+ownerOfTokenFive = await cep47.getOwnerOf("5");
+console.log(`...... Owner of token "5" is ${ownerOfTokenFive}`);
+
+
+Then check outgoing transfers to further validate ownership
+
+'''

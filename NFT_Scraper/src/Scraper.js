@@ -10,7 +10,7 @@ async function Request_Index(index){
   let url = CONTRACT_BASE_URL + index.toString();
   let settings = { method: "Get" };
 
-  let result = ""
+  let result = "";
   await fetch(url, settings)
       .then(res => res.json())
       .then((json) => {
@@ -28,7 +28,7 @@ async function caller(){
   let itemCount = pz['itemCount'];
   console.log('Items: ', itemCount);
 
-  items = parseInt(itemCount);
+  let items = parseInt(itemCount);
   let ALL = []
   if (pageCount == 1) {
     ALL.push(pz['data']);
@@ -44,7 +44,7 @@ async function caller(){
 }
 
 function Get_Pages(){
-  let pages = caller().then(pages => {
+    let pages = caller().then(pages => {
     let _IDS = [];
     let _TXR = [];
     let _BURNT = [];
@@ -88,7 +88,7 @@ function Get_Pages(){
             continue;
           }
 
-          for (id in token_ids){
+          for (let id in token_ids){
             _id = token_ids[id];
             let tx = {
               'id':_id,
@@ -151,7 +151,7 @@ function Get_Pages(){
           else if (c == -1){
             let __IDS = [];
             for (key in _IDS){
-              _key = _IDS[key];
+              let _key = _IDS[key];
               if (_key != _id){
                 __IDS.push(_key);
               }
@@ -174,8 +174,6 @@ function Get_Pages(){
 
 //console.log(Get_Pages());
 //return Get_pages();
-function GET_IDS(){
+export function GET_IDS(){
   return Get_Pages();
 }
-
-GET_IDS();

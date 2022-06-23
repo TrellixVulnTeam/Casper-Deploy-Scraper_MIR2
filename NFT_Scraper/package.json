@@ -9,7 +9,8 @@
   },
   "scripts": {
     "main": "ts-node ./main.ts",
-    "scraper": "js ./Scraper.js"
+    "scraper": "js ./Scraper.js",
+    "test": "ts-node ./test_import.ts"
   },
   "keywords": [],
   "author": "jonas pauli",

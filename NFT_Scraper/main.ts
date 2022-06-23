@@ -2,7 +2,8 @@
 import { config } from "dotenv";
 config({ path: ".env.jnft" });
 
-import {GET_IDS} from "./Scraper";
+//import {IDS} from "";
+import {IDS} from "./build/Scraper.js"
 
 // import Client and EventParser
 import { CEP47Client, CEP47Events, CEP47EventParser } from "casper-cep47-js-client";
@@ -107,9 +108,9 @@ const test = async () => {
   es.start();
 
 
-  const _IDS = GET_IDS();
+  /*const _IDS = IDS;
   console.log(_IDS);
-
+  */
   //* Checks Master Account Balance *//
   /*var balanceOf1 = await cep47.balanceOf(KEYS.publicKey);
 

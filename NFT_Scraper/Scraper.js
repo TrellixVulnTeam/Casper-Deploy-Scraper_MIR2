@@ -174,7 +174,7 @@ function Get_Pages(){
 
 //console.log(Get_Pages());
 //return Get_pages();
-export function GET_IDS(){
+function GET_IDS(){
   return Get_Pages();
 }
 

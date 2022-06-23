@@ -1,6 +1,17 @@
 # Casper-Deploy-Scraper/Scraper
 ## Access the metadata of all NFTs owned by a specific Account using only the Contract Hash.
 
+# LATEST CHANGES 
+## RELEASE VERSION V0.1
+### NFT-Scraper includes a standalone, completely functional NFT scraper for the Casper Blockchain. 
+```
+To be done:
+Agree on a metadata json format.
+Migrate from test to main, scrape relevant data.
+Build a backend to further process the data.
+
+```
+
 ### Limitations
 ```
 This tool is under development and not intended for public use.

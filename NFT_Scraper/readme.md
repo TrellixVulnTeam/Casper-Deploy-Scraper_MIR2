@@ -45,9 +45,9 @@ TRANSFER_ONE_PAYMENT_AMOUNT=2000000000
 ## Latest
 
 ```
-	test function calls Balance of Master account,
-	test function mints a unique NFT ( hardcoded ),
-	test function calls Balance of Master account again
+Javascript Scraper integrated with Typescript NFT client.
+Ownership of IDs of certain NFT collections can be scraped.
+Scraped "owned" NFTs metadata will be accessible.
 
 ```
 
@@ -57,10 +57,13 @@ TRANSFER_ONE_PAYMENT_AMOUNT=2000000000
 
 	- Create an Interface for a node.js server
  	to easily access all the NFT endpoints.
+	Progress estimate:
+	( [##############################--------] )
 
 	- Store JPGs Metadata on the Blockchain,
 	Browser NFTs associated with account and 
 	retreive their Metadata from the Blockchain.
-	
+	Progress estimate:
+	( [--------------------------------------] )
 
 ```

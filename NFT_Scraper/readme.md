@@ -2,9 +2,10 @@
 
 # SETUP
 
+```
 npm install
 nano .env.jnft
-
+```
 This Repo is based on <a href="https://github.com/casper-ecosystem/casper-nft-cep47/blob/master/Contract-Interaction-Tutorial.md">Contract-Interaction-Tutorial</a>
 and intended for use within the Casper ecosystem / CasperLab.
 I created this repo to have a standalone integration of the NFT-client and will modify it to suit my personal needs.

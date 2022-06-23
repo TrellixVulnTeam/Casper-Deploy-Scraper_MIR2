@@ -17,8 +17,10 @@ def FIND_IDS(_IDS=[], _TXR=[], _BURNT=[], pages=All()):
         # Iterate over deploys in every page
         for deploy in page:
             # We don't want to handle failed deploys
-            if deploy['error_message'] != None:
-                continue
+            print(deploy['error_message'])
+            time.sleep(5)
+            #if deploy['error_message'] == None:
+            #    continue
             nature = deploy['entry_point']['name']
             print("#"*35)
             print("DEPLOY NATURE: ", nature)

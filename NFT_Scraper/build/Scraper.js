@@ -36,12 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IDS = void 0;
+exports.GET_IDS = void 0;
 var PAGE_LENGTH = 20;
-var contract_hash = "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8";
-var Account_Hash = "account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d";
+//const contract_hash = "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8";
+//const Account_Hash = "account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d";
 // Complete.
-function Request_Index(index) {
+function Request_Index(index, contract_hash) {
     return __awaiter(this, void 0, void 0, function () {
         var CONTRACT_BASE_URL, fetch, url, settings, result;
         return __generator(this, function (_a) {
@@ -66,12 +66,12 @@ function Request_Index(index) {
         });
     });
 }
-function caller() {
+function caller(contract_hash) {
     return __awaiter(this, void 0, void 0, function () {
         var pz, pageCount, itemCount, items, ALL, p, page;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, Request_Index(1)];
+                case 0: return [4 /*yield*/, Request_Index(1, contract_hash)];
                 case 1:
                     pz = _a.sent();
                     pageCount = parseInt(pz['pageCount']);
@@ -88,7 +88,7 @@ function caller() {
                     _a.label = 3;
                 case 3:
                     if (!(p < 16)) return [3 /*break*/, 6];
-                    return [4 /*yield*/, Request_Index(p)];
+                    return [4 /*yield*/, Request_Index(p, contract_hash)];
                 case 4:
                     page = _a.sent();
                     ALL.push(page['data']);
@@ -101,8 +101,8 @@ function caller() {
         });
     });
 }
-function Get_Pages() {
-    var pages = caller().then(function (pages) {
+function Get_Pages(Account_Hash, contract_hash) {
+    var pages = caller(contract_hash).then(function (pages) {
         var _IDS = [];
         var _TXR = [];
         var _BURNT = [];
@@ -227,6 +227,7 @@ function Get_Pages() {
 }
 //console.log(Get_Pages());
 //return Get_pages();
-export function GET_IDS() {
-    return Get_Pages();
+function GET_IDS(Account_Hash, contract_hash) {
+    return Get_Pages(Account_Hash, contract_hash);
 }
+exports.GET_IDS = GET_IDS;

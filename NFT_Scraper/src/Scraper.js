@@ -1,9 +1,9 @@
 const PAGE_LENGTH = 20;
-const contract_hash = "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8";
-const Account_Hash = "account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d";
+//const contract_hash = "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8";
+//const Account_Hash = "account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d";
 
 // Complete.
-async function Request_Index(index){
+async function Request_Index(index, contract_hash){
   const CONTRACT_BASE_URL = "https://event-store-api-clarity-testnet.make.services/extended-deploys?with_amounts_in_currency_id=1&fields=entry_point,contract_package&limit=" + PAGE_LENGTH.toString() + "&contract_hash=" + contract_hash + "&page=";
   const fetch = require('node-fetch');
 
@@ -21,8 +21,8 @@ async function Request_Index(index){
   return result
 }
 
-async function caller(){
-  var pz = await Request_Index(1);
+async function caller(contract_hash){
+  var pz = await Request_Index(1, contract_hash);
   let pageCount = parseInt(pz['pageCount']);
   console.log('Pages: ', pageCount);
   let itemCount = pz['itemCount'];
@@ -36,15 +36,15 @@ async function caller(){
   }
   else{
     for (let p = 0; p < 16; p++) {
-      let page = await Request_Index(p)
+      let page = await Request_Index(p, contract_hash)
       ALL.push(page['data']);
     }
     return ALL;
   }
 }
 
-function Get_Pages(){
-    let pages = caller().then(pages => {
+function Get_Pages(Account_Hash, contract_hash){
+    let pages = caller(contract_hash).then(pages => {
     let _IDS = [];
     let _TXR = [];
     let _BURNT = [];
@@ -174,6 +174,6 @@ function Get_Pages(){
 
 //console.log(Get_Pages());
 //return Get_pages();
-export function GET_IDS(){
-  return Get_Pages();
+export function GET_IDS(Account_Hash, contract_hash){
+  return Get_Pages(Account_Hash, contract_hash);
 }

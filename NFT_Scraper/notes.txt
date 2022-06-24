@@ -52,3 +52,11 @@ CEP47 Deploy output:
 
 
 npm run usage
+
+
+
+
+############################################################################
+tsc - compile to .ts
+
+npm run test

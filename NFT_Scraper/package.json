@@ -10,7 +10,7 @@
   "scripts": {
     "main": "ts-node ./main.ts",
     "scraper": "js ./Scraper.js",
-    "test": "ts-node ./test_import.ts"
+    "test": "ts-node ./TEST_NFT.ts"
   },
   "keywords": [],
   "author": "jonas pauli",

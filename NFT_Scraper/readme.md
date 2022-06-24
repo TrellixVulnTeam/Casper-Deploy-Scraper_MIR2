@@ -2,9 +2,10 @@
 
 # SETUP
 
+```
 npm install
 nano .env.jnft
-
+```
 This Repo is based on <a href="https://github.com/casper-ecosystem/casper-nft-cep47/blob/master/Contract-Interaction-Tutorial.md">Contract-Interaction-Tutorial</a>
 and intended for use within the Casper ecosystem / CasperLab.
 I created this repo to have a standalone integration of the NFT-client and will modify it to suit my personal needs.
@@ -44,9 +45,9 @@ TRANSFER_ONE_PAYMENT_AMOUNT=2000000000
 ## Latest
 
 ```
-	test function calls Balance of Master account,
-	test function mints a unique NFT ( hardcoded ),
-	test function calls Balance of Master account again
+Javascript Scraper integrated with Typescript NFT client.
+Ownership of IDs of certain NFT collections can be scraped.
+Scraped "owned" NFTs metadata will be accessible.
 
 ```
 
@@ -56,10 +57,13 @@ TRANSFER_ONE_PAYMENT_AMOUNT=2000000000
 
 	- Create an Interface for a node.js server
  	to easily access all the NFT endpoints.
+	Progress estimate:
+	( [##############################--------] )
 
 	- Store JPGs Metadata on the Blockchain,
 	Browser NFTs associated with account and 
 	retreive their Metadata from the Blockchain.
-	
+	Progress estimate:
+	( [--------------------------------------] )
 
 ```

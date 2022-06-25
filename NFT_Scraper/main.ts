@@ -59,6 +59,62 @@ const KEYS_USER = Keys.Ed25519.parseKeyFiles(
   `${USER_KEY_PAIR_PATH}/secret_key.pem`
 );
 
+
+
+// [ FUNCTIONS ]
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+async function Mint_Copy(id, key, value, es, cep47){
+  const mintCopiesDeploy = await cep47.mintCopies(
+    KEYS.publicKey,
+    [id.toString()],
+    new Map([[key.toString(), value.toString()]]),
+    1,
+    MINT_COPIES_PAYMENT_AMOUNT!,
+    KEYS.publicKey,
+    [KEYS]
+  );
+
+  const mintCopiesDeployHash = await mintCopiesDeploy.send(NODE_ADDRESS!);
+
+  console.log("...... Mint deploy hash: ", mintCopiesDeployHash);
+
+  await getDeploy(NODE_ADDRESS!, mintCopiesDeployHash);
+  console.log("...... Token minted successfully");
+}
+
+async function Balance(es, cep47){
+  var _IDS = await GET_IDS("account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d", "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8");
+  let OWNED = [] // append with owned nfts ( [id, metadata] )
+  for (let _id in _IDS){
+    let id = _IDS[_id];
+    // do something with the ID //
+
+    // Get Metadata of id:
+    const tokenMeta = await cep47.getTokenMeta(id.toString());
+    const _owned = [id, tokenMeta];
+
+    OWNED.push(_owned);
+  }
+  return OWNED;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
 const test = async () => {
   const cep47 = new CEP47Client(
     NODE_ADDRESS!,
@@ -104,100 +160,16 @@ const test = async () => {
       console.log("*** ***");
     }
   });
-  var _IDS = await GET_IDS("account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d", "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8");
-  console.log(_IDS, 'END');
-
   es.start();
-  let OWNED = [] // append with owned nfts ( [id, metadata] )
-  for (let _id in _IDS){
-    let id = _IDS[_id];
-    // do something with the ID //
+  console.log(await Balance(es, cep47));
+  // last id = 10
+  /*console.log(await Mint_Copy(12, es, cep47));
+  console.log(await Balance(es, cep47));*/
 
-    // Get Metadata of id:
-    const tokenMeta = await cep47.getTokenMeta(id.toString());
-    const _owned = [id, tokenMeta];
+  console.log(await Mint_Copy(12, "NFT 02", "JPG 02", es, cep47));
 
-    OWNED.push(_owned);
-  }
-  console.log("[OWNED TOKENS WITH METADATA]: ", OWNED)
-
-  es.stop()
-
-  //es.start();
-  //es.stop();
-  //* Checks Master Account Balance *//
-  /*var balanceOf1 = await cep47.balanceOf(KEYS.publicKey);
-
-  console.log('...... Balance of master account: ', balanceOf1);
-  */
-  //* Mint another NFT with Master Account *//
-
-  /*console.log('Minting a Copy');
-
-  const mintCopiesDeploy = await cep47.mintCopies(
-    KEYS.publicKey,
-    ["9", "10"],
-    new Map([["metadata", "JPG metadata"]]),
-    2,
-    MINT_COPIES_PAYMENT_AMOUNT!,
-    KEYS.publicKey,
-    [KEYS]
-  );
-
-  const mintCopiesDeployHash = await mintCopiesDeploy.send(NODE_ADDRESS!);
-
-  console.log("...... Mint deploy hash: ", mintCopiesDeployHash);
-
-  await getDeploy(NODE_ADDRESS!, mintCopiesDeployHash);
-  console.log("...... Token minted successfully");
-  */
-
-  /*
-  const tokenNineMeta = await cep47.getTokenMeta("9");
-
-  console.log('...... Token 9 metadata: ', tokenNineMeta);
-  */
-
-
-  //* Check Master Account Balance Again*//
-  /*
-  balanceOf1 = await cep47.balanceOf(KEYS.publicKey);
-  console.log('...... Balance of master account: ', balanceOf1);
-  */
-/*
-  console.log('\n*************************\n');
-
-  console.log('... Transfer From #1\n');
-
-  let ownerOfTokenFive = await cep47.getOwnerOf("9");
-  console.log(`...... Owner of token "9" is ${ownerOfTokenFive}`);
-
-  // NOTE: Some random address
-  const transferFromRecipient = CLPublicKey.fromHex("019548b4f31b06d1ce81ab4fd90c9a88e4a5aee9d71cac97044280905707248da4");
-
-  console.log(`...... Transfer from ${KEYS.publicKey.toAccountHashStr()} to ${transferFromRecipient.toAccountHashStr()}`);
-
-  const transferFromDeploy = await cep47.transferFrom(
-    transferFromRecipient,
-    KEYS.publicKey,
-    ["9"],
-    TRANSFER_ONE_PAYMENT_AMOUNT!,
-    KEYS_USER.publicKey, [KEYS_USER]);
-
-
-  const transferFromHash = await transferFromDeploy.send(NODE_ADDRESS!);
-
-  console.log("...... Transfer From #1 deploy hash: ", transferFromHash);
-
-  await getDeploy(NODE_ADDRESS!, transferFromHash);
-  console.log("...... Token transfered successfully");
-
-  ownerOfTokenFive = await cep47.getOwnerOf("9");
-  console.log(`...... Owner of token "9" is ${ownerOfTokenFive}`);
-
-  console.log('\n*************************\n');
-
-*/
+  console.log(await Balance(es, cep47));
+  es.stop();
 }
 
 test();

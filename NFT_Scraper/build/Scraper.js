@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GET_IDS = void 0;
-var PAGE_LENGTH = 20;
+var PAGE_LENGTH = 4;
 //const contract_hash = "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8";
 //const Account_Hash = "account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d";
 // Complete.
@@ -84,10 +84,10 @@ function caller(contract_hash) {
                     ALL.push(pz['data']);
                     return [2 /*return*/, ALL];
                 case 2:
-                    p = 0;
+                    p = 1;
                     _a.label = 3;
                 case 3:
-                    if (!(p < 16)) return [3 /*break*/, 6];
+                    if (!(p < pageCount + 1)) return [3 /*break*/, 6];
                     return [4 /*yield*/, Request_Index(p, contract_hash)];
                 case 4:
                     page = _a.sent();
@@ -221,9 +221,6 @@ function Get_Pages(Account_Hash, contract_hash) {
                             }
                         }
                     }
-                    console.log("[IN SCRAPER]");
-                    console.log("IDS: ", _IDS);
-                    console.log("[END SCRAPER]");
                     return [2 /*return*/, _IDS];
             }
         });

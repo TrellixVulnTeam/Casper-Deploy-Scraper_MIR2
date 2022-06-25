@@ -1,4 +1,4 @@
-const PAGE_LENGTH = 20;
+const PAGE_LENGTH = 4;
 //const contract_hash = "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8";
 //const Account_Hash = "account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d";
 
@@ -35,7 +35,7 @@ async function caller(contract_hash){
     return ALL;
   }
   else{
-    for (let p = 0; p < 16; p++) {
+    for (let p = 1; p < pageCount + 1; p++) {
       let page = await Request_Index(p, contract_hash)
       ALL.push(page['data']);
     }
@@ -165,9 +165,6 @@ async function Get_Pages(Account_Hash, contract_hash){
         }
       }
     }
-    console.log("[IN SCRAPER]");
-    console.log("IDS: ", _IDS);
-    console.log("[END SCRAPER]");
     return _IDS;
   //});
 }

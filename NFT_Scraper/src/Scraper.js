@@ -43,41 +43,38 @@ async function caller(contract_hash){
   }
 }
 
-function Get_Pages(Account_Hash, contract_hash){
-    let pages = caller(contract_hash).then(pages => {
+async function Get_Pages(Account_Hash, contract_hash){
+    let pages = await caller(contract_hash)//.then(pages => {
     let _IDS = [];
     let _TXR = [];
     let _BURNT = [];
-    for (page in pages){
-      for (deploy in pages[page]){
+    for (let page in pages){
+      for (let deploy in pages[page]){
         // a single deploy.
         //console.log(pages[page][deploy]);
         let instance = pages[page][deploy];
         let error = instance['error_message'];
         if (error != null){
-          console.log("Failed Deploy.");
           continue;
         }
-        console.log('Ok Deploy.');
 
         let nature = instance['entry_point']['name']
-        console.log("DEPLOY NATURE: ", nature);
         if (nature == 'mint'){
           let metadata_parsed = instance['args']['token_metas']['parsed'];
           let token_ids = instance['args']['token_ids']['parsed'];
-          for (id in token_ids){
+          for (let id in token_ids){
             let _id = token_ids[id];
             _IDS.push(_id);
           }
-          console.log('_IDS: ', _IDS);
+          //console.log('_IDS: ', _IDS);
         }
         else if (nature == 'mint_copies'){
           let token_ids = instance['args']['token_ids']['parsed'];
-          for (id in token_ids){
+          for (let id in token_ids){
             let _id = token_ids[id];
             _IDS.push(_id);
           }
-          console.log('_IDS: ', _IDS);
+          //console.log('_IDS: ', _IDS);
         }
         else if (nature == 'transfer_from'){
           let token_ids = instance['args']['token_ids']['parsed'];
@@ -101,19 +98,19 @@ function Get_Pages(Account_Hash, contract_hash){
         }
         else if (nature == 'burn'){
           let token_ids = instance['args']['token_ids']['parsed'];
-          for (id in token_ids){
+          for (let id in token_ids){
             let _id = token_ids[id];
             _BURNT.push(_id);
           }
         }
-        console.log(_BURNT);
+        /*console.log(_BURNT);
         console.log(_IDS);
-        console.log(_TXR);
+        console.log(_TXR);*/
         // PROCESSING TRANSACTIONS
         let _lost = [];
         let _received = [];
 
-        for (tx in _TXR){
+        for (let tx in _TXR){
           let _tx = _TXR[tx];
           if (_tx['sender'] == Account_Hash && _tx['recipient'] != Account_Hash){
             // transaction from this to another account
@@ -123,34 +120,33 @@ function Get_Pages(Account_Hash, contract_hash){
             _received.push(_tx['id']);
           }
         }
-        for (id in _IDS){
+        for (let id in _IDS){
           _id = _IDS[id];
           let c = 0;
-          for (key in _lost){
+          for (let key in _lost){
             let _key = _lost[key];
             if (_key == _id){
               c -= 1;
             }
           }
-          for (key in _received){
-            let _key = _received[key];
+          for (let key in _received){
+          let _key = _received[key];
             if (_key == _id){
               c += 1;
             }
           }
-          for (key in _BURNT){
+          for (let key in _BURNT){
             let _key = _BURNT[key];
             if (_key == _id){
               c = -1;
             }
           }
           if (c == 1){
-            console.log("| [:1] FOUND OWNED |");
             _IDS.push(_id);
           }
           else if (c == -1){
             let __IDS = [];
-            for (key in _IDS){
+            for (let key in _IDS){
               let _key = _IDS[key];
               if (_key != _id){
                 __IDS.push(_key);
@@ -158,22 +154,27 @@ function Get_Pages(Account_Hash, contract_hash){
             }
             _IDS = __IDS;
           }
+          /*
           else if (c == 0){
-            console.log("| [:2] FOUND OWNED |");
+            pass;
           }
           else{
-            console.log("[WARNING: ]", "invalid c value was calculated.");
-          }
+            pass;
+            //console.log("[WARNING: ]", "invalid c value was calculated.");
+          }*/
         }
       }
-
     }
-    console.log("OWNED IDS: ", _IDS);
-  });
+    console.log("[IN SCRAPER]");
+    console.log("IDS: ", _IDS);
+    console.log("[END SCRAPER]");
+    return _IDS;
+  //});
 }
 
 //console.log(Get_Pages());
 //return Get_pages();
-export function GET_IDS(Account_Hash, contract_hash){
-  return Get_Pages(Account_Hash, contract_hash);
+export async function GET_IDS(Account_Hash, contract_hash){
+  let res = await Get_Pages(Account_Hash, contract_hash);
+  return res;
 }

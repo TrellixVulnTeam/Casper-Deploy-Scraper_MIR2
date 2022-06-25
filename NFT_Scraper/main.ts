@@ -3,7 +3,7 @@ import { config } from "dotenv";
 config({ path: ".env.jnft" });
 
 //import {IDS} from "";
-import {IDS} from "./build/Scraper.js"
+import {GET_IDS} from "./build/Scraper.js"
 
 // import Client and EventParser
 import { CEP47Client, CEP47Events, CEP47EventParser } from "casper-cep47-js-client";
@@ -104,13 +104,27 @@ const test = async () => {
       console.log("*** ***");
     }
   });
+  var _IDS = await GET_IDS("account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d", "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8");
+  console.log(_IDS, 'END');
 
   es.start();
+  let OWNED = [] // append with owned nfts ( [id, metadata] )
+  for (let _id in _IDS){
+    let id = _IDS[_id];
+    // do something with the ID //
 
+    // Get Metadata of id:
+    const tokenMeta = await cep47.getTokenMeta(id.toString());
+    const _owned = [id, tokenMeta];
 
-  /*const _IDS = IDS;
-  console.log(_IDS);
-  */
+    OWNED.push(_owned);
+  }
+  console.log("[OWNED TOKENS WITH METADATA]: ", OWNED)
+
+  es.stop()
+
+  //es.start();
+  //es.stop();
   //* Checks Master Account Balance *//
   /*var balanceOf1 = await cep47.balanceOf(KEYS.publicKey);
 
@@ -184,7 +198,6 @@ const test = async () => {
   console.log('\n*************************\n');
 
 */
-  es.stop();
 }
 
 test();

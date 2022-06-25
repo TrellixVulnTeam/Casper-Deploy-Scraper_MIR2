@@ -102,132 +102,146 @@ function caller(contract_hash) {
     });
 }
 function Get_Pages(Account_Hash, contract_hash) {
-    var pages = caller(contract_hash).then(function (pages) {
-        var _IDS = [];
-        var _TXR = [];
-        var _BURNT = [];
-        for (let page in pages) {
-            for (let deploy in pages[page]) {
-                // a single deploy.
-                //console.log(pages[page][deploy]);
-                var instance = pages[page][deploy];
-                var error = instance['error_message'];
-                if (error != null) {
-                    console.log("Failed Deploy.");
-                    continue;
-                }
-                console.log('Ok Deploy.');
-                var nature = instance['entry_point']['name'];
-                console.log("DEPLOY NATURE: ", nature);
-                if (nature == 'mint') {
-                    var metadata_parsed = instance['args']['token_metas']['parsed'];
-                    var token_ids = instance['args']['token_ids']['parsed'];
-                    for (let id in token_ids) {
-                        var _id = token_ids[id];
-                        _IDS.push(_id);
-                    }
-                    console.log('_IDS: ', _IDS);
-                }
-                else if (nature == 'mint_copies') {
-                    var token_ids = instance['args']['token_ids']['parsed'];
-                    for (let id in token_ids) {
-                        var _id = token_ids[id];
-                        _IDS.push(_id);
-                    }
-                    console.log('_IDS: ', _IDS);
-                }
-                else if (nature == 'transfer_from') {
-                    var token_ids = instance['args']['token_ids']['parsed'];
-                    var timestamp = instance['timestamp'];
-                    var recipient = instance['args']['recipient']['parsed']['Account'];
-                    var sender = instance['args']['sender']['parsed']['Account'];
-                    if (sender == recipient) {
-                        continue;
-                    }
-                    for (var id in token_ids) {
-                        _id = token_ids[id];
-                        var tx = {
-                            'id': _id,
-                            'timestamp': timestamp,
-                            'sender': sender,
-                            'recipient': recipient
-                        };
-                        _TXR.push(tx);
-                    }
-                }
-                else if (nature == 'burn') {
-                    var token_ids = instance['args']['token_ids']['parsed'];
-                    for (let id in token_ids) {
-                        var _id = token_ids[id];
-                        _BURNT.push(_id);
-                    }
-                }
-                console.log(_BURNT);
-                console.log(_IDS);
-                console.log(_TXR);
-                // PROCESSING TRANSACTIONS
-                var _lost = [];
-                var _received = [];
-                for (let tx in _TXR) {
-                    var _tx = _TXR[tx];
-                    if (_tx['sender'] == Account_Hash && _tx['recipient'] != Account_Hash) {
-                        // transaction from this to another account
-                        _lost.push(_tx['id']);
-                    }
-                    else if (_tx['sender'] != Account_Hash && _tx['recipient'] == Account_Hash) {
-                        _received.push(_tx['id']);
-                    }
-                }
-                for (let id in _IDS) {
-                    _id = _IDS[id];
-                    var c = 0;
-                    for (let key in _lost) {
-                        var _key = _lost[key];
-                        if (_key == _id) {
-                            c -= 1;
-                        }
-                    }
-                    for (let key in _received) {
-                        var _key = _received[key];
-                        if (_key == _id) {
-                            c += 1;
-                        }
-                    }
-                    for (let key in _BURNT) {
-                        var _key = _BURNT[key];
-                        if (_key == _id) {
-                            c = -1;
-                        }
-                    }
-                    if (c == 1) {
-                        console.log("| [:1] FOUND OWNED |");
-                        _IDS.push(_id);
-                    }
-                    else if (c == -1) {
-                        var __IDS = [];
-                        for (let key in _IDS) {
-                            var _key = _IDS[key];
-                            if (_key != _id) {
-                                __IDS.push(_key);
+    return __awaiter(this, void 0, void 0, function () {
+        var pages, _IDS, _TXR, _BURNT, page, deploy, instance, error, nature, metadata_parsed, token_ids, id, _id, token_ids, id, _id, token_ids, timestamp, recipient, sender, id, tx, token_ids, id, _id, _lost, _received, tx, _tx, id, c, key, _key, key, _key, key, _key, __IDS, key, _key;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, caller(contract_hash)]; //.then(pages => {
+                case 1:
+                    pages = _a.sent() //.then(pages => {
+                    ;
+                    _IDS = [];
+                    _TXR = [];
+                    _BURNT = [];
+                    for (page in pages) {
+                        for (deploy in pages[page]) {
+                            instance = pages[page][deploy];
+                            error = instance['error_message'];
+                            if (error != null) {
+                                continue;
+                            }
+                            nature = instance['entry_point']['name'];
+                            if (nature == 'mint') {
+                                metadata_parsed = instance['args']['token_metas']['parsed'];
+                                token_ids = instance['args']['token_ids']['parsed'];
+                                for (id in token_ids) {
+                                    _id = token_ids[id];
+                                    _IDS.push(_id);
+                                }
+                                //console.log('_IDS: ', _IDS);
+                            }
+                            else if (nature == 'mint_copies') {
+                                token_ids = instance['args']['token_ids']['parsed'];
+                                for (id in token_ids) {
+                                    _id = token_ids[id];
+                                    _IDS.push(_id);
+                                }
+                                //console.log('_IDS: ', _IDS);
+                            }
+                            else if (nature == 'transfer_from') {
+                                token_ids = instance['args']['token_ids']['parsed'];
+                                timestamp = instance['timestamp'];
+                                recipient = instance['args']['recipient']['parsed']['Account'];
+                                sender = instance['args']['sender']['parsed']['Account'];
+                                if (sender == recipient) {
+                                    continue;
+                                }
+                                for (id in token_ids) {
+                                    _id = token_ids[id];
+                                    tx = {
+                                        'id': _id,
+                                        'timestamp': timestamp,
+                                        'sender': sender,
+                                        'recipient': recipient
+                                    };
+                                    _TXR.push(tx);
+                                }
+                            }
+                            else if (nature == 'burn') {
+                                token_ids = instance['args']['token_ids']['parsed'];
+                                for (id in token_ids) {
+                                    _id = token_ids[id];
+                                    _BURNT.push(_id);
+                                }
+                            }
+                            _lost = [];
+                            _received = [];
+                            for (tx in _TXR) {
+                                _tx = _TXR[tx];
+                                if (_tx['sender'] == Account_Hash && _tx['recipient'] != Account_Hash) {
+                                    // transaction from this to another account
+                                    _lost.push(_tx['id']);
+                                }
+                                else if (_tx['sender'] != Account_Hash && _tx['recipient'] == Account_Hash) {
+                                    _received.push(_tx['id']);
+                                }
+                            }
+                            for (id in _IDS) {
+                                _id = _IDS[id];
+                                c = 0;
+                                for (key in _lost) {
+                                    _key = _lost[key];
+                                    if (_key == _id) {
+                                        c -= 1;
+                                    }
+                                }
+                                for (key in _received) {
+                                    _key = _received[key];
+                                    if (_key == _id) {
+                                        c += 1;
+                                    }
+                                }
+                                for (key in _BURNT) {
+                                    _key = _BURNT[key];
+                                    if (_key == _id) {
+                                        c = -1;
+                                    }
+                                }
+                                if (c == 1) {
+                                    _IDS.push(_id);
+                                }
+                                else if (c == -1) {
+                                    __IDS = [];
+                                    for (key in _IDS) {
+                                        _key = _IDS[key];
+                                        if (_key != _id) {
+                                            __IDS.push(_key);
+                                        }
+                                    }
+                                    _IDS = __IDS;
+                                }
+                                /*
+                                else if (c == 0){
+                                  pass;
+                                }
+                                else{
+                                  pass;
+                                  //console.log("[WARNING: ]", "invalid c value was calculated.");
+                                }*/
                             }
                         }
-                        _IDS = __IDS;
                     }
-                    else if (c == 0) {
-                        console.log("| [:2] FOUND OWNED |");
-                    }
-                    else {
-                        console.log("[WARNING: ]", "invalid c value was calculated.");
-                    }
-                }
+                    console.log("[IN SCRAPER]");
+                    console.log("IDS: ", _IDS);
+                    console.log("[END SCRAPER]");
+                    return [2 /*return*/, _IDS];
             }
-        }
-        console.log("OWNED IDS: ", _IDS);
+        });
     });
 }
 //console.log(Get_Pages());
 //return Get_pages();
 function GET_IDS(Account_Hash, contract_hash) {
-    return Get_Pages(Account_Hash, contract_hash);
+    return __awaiter(this, void 0, void 0, function () {
+        var res;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Get_Pages(Account_Hash, contract_hash)];
+                case 1:
+                    res = _a.sent();
+                    return [2 /*return*/, res];
+            }
+        });
+    });
 }
 exports.GET_IDS = GET_IDS;

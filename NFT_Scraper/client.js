@@ -1,4 +1,4 @@
-// This client is intended to be integrated with 
+// This client is intended to be integrated with node.js backend(s)
 
 var main = require("./main");
 //989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8

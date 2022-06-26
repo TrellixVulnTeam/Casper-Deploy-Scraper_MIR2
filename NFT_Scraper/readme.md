@@ -29,7 +29,7 @@ TOKEN_META=ID1 NumberOne,ID2 NumberTwo
 INSTALL_PAYMENT_AMOUNT=250000000000
 
 MINT_ONE_PAYMENT_AMOUNT=2000000000
-MINT_COPIES_PAYMENT_AMOUNT=100000000000
+MINT_COPIES_PAYMENT_AMOUNT=30000000000
 BURN_ONE_PAYMENT_AMOUNT=12000000000
 MINT_ONE_META_SIZE=1
 MINT_COPIES_META_SIZE=10
@@ -59,4 +59,4 @@ Manage Keys and integrate:
     - burns
 
 # Integration
-Import functions from client.js ( look into the file to see currenlty supported functionality. ) 
+Import functions from client.js ( look into the file to see currently supported functionality. ) 

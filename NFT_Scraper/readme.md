@@ -40,15 +40,23 @@ TRANSFER_ONE_PAYMENT_AMOUNT=2000000000
 ```
 ----- END -----
 
+# What is ? - Current features ( as per 26.06.2022 )
+The Casper NFT-Scraper is a tool that makes use of the casper-nft-client library \
+to provide an 'Externally observable association between Accounts and/or Contracts and NFTs they "own".' \
+As stated in the enhanced-nft-standard https://github.com/casper-ecosystem/cep-78-enhanced-nft . \
+
+Scraper.js - This script takes 2 inputs (account hash, contract hash), where the contract hash is the \
+"contract hash" of any non fungible token on the NFT blockchain ( according to the NFT standard ! not the enhanced standard) \
+and account hash is the "account-hash" of any account on the casper blockchain. \
+
+main.js - An integration of the casper-nft-client with additional functions, designed to be as modular as possible. \
+client.js - Calls main.js, can be imported to any node.js backend to serve relevant data and disply NFTs in Apps. \
+
+# Roadmap
+Manage Keys and integrate:
+    - transfers
+    - mints
+    - burns
+
 # Integration
-Import functions from client.js ( look into the file to see currenlty supported functionality. )
-
-```
-Scraper.js scrapes the casper web explorer.
-main.js contains an instance of the NFT-client,
-aswell as useful functions that client.js calls.
-
-Scraper.js and main.js should not be integraded 
-directly. Instead import functions from client.js
-only.
-```
+Import functions from client.js ( look into the file to see currenlty supported functionality. ) 

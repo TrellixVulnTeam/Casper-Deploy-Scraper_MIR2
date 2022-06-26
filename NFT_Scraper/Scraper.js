@@ -1,4 +1,6 @@
 "use strict";
+// Uncompiled version of Scraper.js //
+// Treat as backup //
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,9 +39,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GET_IDS = void 0;
-var PAGE_LENGTH = 100;
-//const contract_hash = "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8";
-//const Account_Hash = "account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d";
+var PAGE_LENGTH = 4;
 // Complete.
 function Request_Index(index, contract_hash) {
     return __awaiter(this, void 0, void 0, function () {
@@ -103,7 +103,7 @@ function caller(contract_hash) {
 }
 function Get_Pages(Account_Hash, contract_hash) {
     return __awaiter(this, void 0, void 0, function () {
-        var pages, _IDS, _TXR, _BURNT, page, deploy, instance, error, nature, metadata_parsed, token_ids, id, _id, token_ids, id, _id, token_ids, timestamp, recipient, sender, id, tx, token_ids, id, _id, _lost, _received, tx, _tx, id, c, key, _key, key, _key, key, _key, __IDS, key, _key;
+        var pages, _IDS, _TXR, _BURNT, page, deploy, instance, error, nature, token_ids, id, _id, token_ids, timestamp, recipient, sender, id, tx, token_ids, id, _id, _lost, _received, tx, _tx, id, c, key, _key, key, _key, key, _key, __IDS, key, _key;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, caller(contract_hash)]; //.then(pages => {
@@ -121,16 +121,7 @@ function Get_Pages(Account_Hash, contract_hash) {
                                 continue;
                             }
                             nature = instance['entry_point']['name'];
-                            if (nature == 'mint') {
-                                metadata_parsed = instance['args']['token_metas']['parsed'];
-                                token_ids = instance['args']['token_ids']['parsed'];
-                                for (id in token_ids) {
-                                    _id = token_ids[id];
-                                    _IDS.push(_id);
-                                }
-                                //console.log('_IDS: ', _IDS);
-                            }
-                            else if (nature == 'mint_copies') {
+                            if (nature == 'mint_copies') {
                                 token_ids = instance['args']['token_ids']['parsed'];
                                 for (id in token_ids) {
                                     _id = token_ids[id];
@@ -236,6 +227,7 @@ function GET_IDS(Account_Hash, contract_hash) {
                 case 0: return [4 /*yield*/, Get_Pages(Account_Hash, contract_hash)];
                 case 1:
                     res = _a.sent();
+                    //console.log(res);
                     return [2 /*return*/, res];
             }
         });

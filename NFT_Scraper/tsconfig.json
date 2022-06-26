@@ -2,8 +2,7 @@
   "compilerOptions":{
     "outDir": "./build",
     "allowJs":true,
-    "target":"es5",
-    "esModuleInterop":true
+    "target":"es5"
   },
-  "include":["./main.ts"]
+  "include":["./Scraper.js"]
 }

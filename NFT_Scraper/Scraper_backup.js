@@ -2,8 +2,6 @@
 // Treat as backup //
 
 const PAGE_LENGTH = 4;
-const contract_hash = "0a8e5d0c8d7d5af3e01cde3c14713242e8d43bc44c7aefe342577e10cbebb7d9";
-const Account_Hash = "account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d";
 
 // Complete.
 async function Request_Index(index, contract_hash){
@@ -63,18 +61,7 @@ async function Get_Pages(Account_Hash, contract_hash){
 
         let nature = instance['entry_point']['name']
 
-
-        
-        if (nature == 'mint'){
-          let metadata_parsed = instance['args']['token_metas']['parsed'];
-          let token_ids = instance['args']['token_ids']['parsed'];
-          for (let id in token_ids){
-            let _id = token_ids[id];
-            _IDS.push(_id);
-          }
-          //console.log('_IDS: ', _IDS);
-        }
-        else if (nature == 'mint_copies'){
+        if (nature == 'mint_copies'){
           let token_ids = instance['args']['token_ids']['parsed'];
           for (let id in token_ids){
             let _id = token_ids[id];
@@ -177,9 +164,8 @@ async function Get_Pages(Account_Hash, contract_hash){
 
 //console.log(Get_Pages());
 //return Get_pages();
-async function GET_IDS(Account_Hash, contract_hash){
+export async function GET_IDS(Account_Hash, contract_hash){
   let res = await Get_Pages(Account_Hash, contract_hash);
-  console.log(res);
-  //return res;
+  //console.log(res);
+  return res;
 }
-GET_IDS(Account_Hash, contract_hash);

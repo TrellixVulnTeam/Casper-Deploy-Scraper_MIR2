@@ -42,7 +42,7 @@ var dotenv_1 = require("dotenv");
 (0, dotenv_1.config)({ path: ".env.jnft" });
 //import {IDS} from "";
 var Scraper_js_1 = require("./Scraper.js");
-// import Client and EventParser
+// import Client and EventParser from node_modules
 var casper_cep47_js_client_1 = require("casper-cep47-js-client");
 // import stuff from utils.ts
 var utils_1 = require("./utils");

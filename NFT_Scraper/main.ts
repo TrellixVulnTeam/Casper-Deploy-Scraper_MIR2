@@ -111,8 +111,9 @@ export async function Balance(account_hash, collection_contract_hash){
   for (let _id in _IDS){
     let id = _IDS[_id];
     // do something with the ID //
-
     // Get Metadata of id:
+
+    // ! ERROR ! This does not work with ID #1 !!!!
     const tokenMeta = await cep47.getTokenMeta(id.toString());
     const _owned = [id, tokenMeta];
 

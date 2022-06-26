@@ -71,11 +71,13 @@ const KEYS_USER = Keys.Ed25519.parseKeyFiles(
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-export async function Test_Export(){
-  return ("Hello World");
-}
 
-async function Mint_Copy(id, key, value, es, cep47){
+// NOT YET FULLY INTEGRATED.
+async function Mint_Copy(id, key, value){
+  let streamer = await initialize();
+  let es = streamer['event_stream'];
+  let cep47 = streamer['cep47_client'];
+  es.start();
   const mintCopiesDeploy = await cep47.mintCopies(
     KEYS.publicKey,
     [id.toString()],
@@ -92,10 +94,19 @@ async function Mint_Copy(id, key, value, es, cep47){
 
   await getDeploy(NODE_ADDRESS!, mintCopiesDeployHash);
   console.log("...... Token minted successfully");
+  es.stop();
 }
 
-async function Balance(es, cep47){
-  var _IDS = await GET_IDS("account-hash-9213801c105b757b8dda450090c40541edcbe95db6d7f3b6b4cbb1656d5f0a9d", "989184bbbfdb6a213e4b2586cfa87d6a92e1ecff8fbf5a8b69b95086125fc9d8");
+
+// SHOULD BE FULLY INTEGRATED. // RETURNS ALL OWNED NFTs OF GIVEN COLLECTION
+// JSON SCHEMA [id, metadata] => LATER: ALL RELEVANT INFO FOR JPG COLLECTION
+// REQUIRES A COMMUNITY STANDARD
+export async function Balance(account_hash, collection_contract_hash){
+  let streamer = await initialize();
+  let es = streamer['event_stream'];
+  let cep47 = streamer['cep47_client'];
+  es.start();
+  var _IDS = await GET_IDS(account_hash, collection_contract_hash);
   let OWNED = [] // append with owned nfts ( [id, metadata] )
   for (let _id in _IDS){
     let id = _IDS[_id];
@@ -107,9 +118,14 @@ async function Balance(es, cep47){
 
     OWNED.push(_owned);
   }
+  es.stop();
   return OWNED;
 }
 
+// TO BE DONE: TRANSFER_FROM
+
+// TO BE DONE: BURN
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,7 +135,7 @@ async function Balance(es, cep47){
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-const test = async () => {
+async function initialize(){
   const cep47 = new CEP47Client(
     NODE_ADDRESS!,
     CHAIN_NAME!
@@ -164,14 +180,25 @@ const test = async () => {
       console.log("*** ***");
     }
   });
-  es.start();
-  console.log(await Balance(es, cep47));
+
+  let result = {'event_stream':es, 'cep47_client':cep47};
+
+  return result;
+  //es.start();
+  //console.log(await Balance(es, cep47));
   // last id = 10
   /*console.log(await Mint_Copy(12, es, cep47));
   console.log(await Balance(es, cep47));*/
 
-  console.log(await Mint_Copy(12, "NFT 02", "JPG 02", es, cep47));
+  //console.log(await Mint_Copy(12, "NFT 02", "JPG 02", es, cep47));
 
-  console.log(await Balance(es, cep47));
-  es.stop();
+  //console.log(await Balance(es, cep47));
+  //es.stop();
 }
+/*
+async function tests(){
+  console.log(await Balance());
+}
+
+tests();
+*/

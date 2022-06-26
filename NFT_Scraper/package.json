@@ -8,9 +8,11 @@
     "typescript": "^4.4.3"
   },
   "scripts": {
+    "client":"js ./main.js",
     "main": "ts-node ./main.ts",
     "scraper": "js ./Scraper.js",
-    "test": "ts-node ./TEST_NFT.ts"
+    "test": "ts-node ./TEST_NFT.ts",
+    "client": "js ./client.js"
   },
   "keywords": [],
   "author": "jonas pauli",

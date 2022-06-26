@@ -3,7 +3,7 @@ import { config } from "dotenv";
 config({ path: ".env.jnft" });
 
 //import {IDS} from "";
-import {GET_IDS} from "./build/Scraper.js"
+import {GET_IDS} from "./Scraper.js"
 
 // import Client and EventParser
 import { CEP47Client, CEP47Events, CEP47EventParser } from "casper-cep47-js-client";
@@ -70,6 +70,10 @@ const KEYS_USER = Keys.Ed25519.parseKeyFiles(
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
+
+export async function Test_Export(){
+  return ("Hello World");
+}
 
 async function Mint_Copy(id, key, value, es, cep47){
   const mintCopiesDeploy = await cep47.mintCopies(
@@ -171,5 +175,3 @@ const test = async () => {
   console.log(await Balance(es, cep47));
   es.stop();
 }
-
-test();

@@ -40,30 +40,15 @@ TRANSFER_ONE_PAYMENT_AMOUNT=2000000000
 ```
 ----- END -----
 
-# Content
-
-## Latest
-
-```
-Javascript Scraper integrated with Typescript NFT client.
-Ownership of IDs of certain NFT collections can be scraped.
-Scraped "owned" NFTs metadata will be accessible.
+# Integration
+Import functions from client.js ( look into the file to see currenlty supported functionality. )
 
 ```
+Scraper.js scrapes the casper web explorer.
+main.js contains an instance of the NFT-client,
+aswell as useful functions that client.js calls.
 
-## Future Goals
-
-```
-
-	- Create an Interface for a node.js server
- 	to easily access all the NFT endpoints.
-	Progress estimate:
-	( [##############################--------] )
-
-	- Store JPGs Metadata on the Blockchain,
-	Browser NFTs associated with account and 
-	retreive their Metadata from the Blockchain.
-	Progress estimate:
-	( [--------------------------------------] )
-
+Scraper.js and main.js should not be integraded 
+directly. Instead import functions from client.js
+only.
 ```

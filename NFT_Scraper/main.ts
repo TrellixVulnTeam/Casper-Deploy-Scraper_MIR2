@@ -5,7 +5,7 @@ config({ path: ".env.jnft" });
 //import {IDS} from "";
 import {GET_IDS} from "./Scraper.js"
 
-// import Client and EventParser
+// import Client and EventParser from node_modules
 import { CEP47Client, CEP47Events, CEP47EventParser } from "casper-cep47-js-client";
 
 // import stuff from utils.ts
